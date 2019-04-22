@@ -1,0 +1,64 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `wh` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci ;
+USE `wh` ;
+
+-- -----------------------------------------------------
+-- Table `wh`.`client`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wh`.`client` (
+  `idClient` INT(11) NOT NULL,
+  `nume` VARCHAR(45) NULL DEFAULT NULL,
+  `prenume` VARCHAR(45) NULL DEFAULT NULL,
+  `email` VARCHAR(45) NULL DEFAULT NULL,
+  `password` VARCHAR(45) NULL DEFAULT NULL,
+  PRIMARY KEY (`idClient`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `wh`.`product`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wh`.`product` (
+  `idProduct` INT(11) NOT NULL,
+  `denumire` VARCHAR(45) NULL DEFAULT NULL,
+  `stoc` INT(11) NULL DEFAULT NULL,
+  `pret` DOUBLE NULL DEFAULT NULL,
+  PRIMARY KEY (`idProduct`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+-- -----------------------------------------------------
+-- Table `wh`.`order`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `wh`.`order` (
+  `idOrder` VARCHAR(45) NOT NULL,
+  `idClient` INT(11) NULL DEFAULT NULL,
+  `idProduct` INT(11) NULL DEFAULT NULL,
+  `cantitate` INT(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`idOrder`),
+  INDEX `client_fk__idx` (`idClient` ASC) VISIBLE,
+  INDEX `product_fk__idx` (`idProduct` ASC) VISIBLE,
+  CONSTRAINT `client_fk_`
+    FOREIGN KEY (`idClient`)
+    REFERENCES `wh`.`client` (`idClient`),
+  CONSTRAINT `product_fk_`
+    FOREIGN KEY (`idProduct`)
+    REFERENCES `wh`.`product` (`idProduct`))
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = utf8mb4
+COLLATE = utf8mb4_0900_ai_ci;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
